@@ -4,11 +4,12 @@ from pathlib import Path
 from textwrap import dedent
 
 import src.azure_client as azure_client
-
+from src.dronning_chat import dronning_chat
 import src.no_vector_db as no_vector_db
 
 def combine_results(question: str, history):
     r1 = no_vector_db.answer_question(question)
+    r2 = dronning_chat(question, history)
 
     selected_conversation_hist = [
     {"role": "system", "content": dedent(
@@ -37,7 +38,8 @@ def combine_results(question: str, history):
 
     ANSWER FROM EXPERT 1:
     {r1}
-
+    ANSWER FROM EXPERT 2:
+    {r2}
     """)
     },
     ]
