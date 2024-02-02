@@ -38,7 +38,7 @@ for i in range(2001, 2024):
     # Add question to conversation
     messages = selected_conversation_hist + [{"role": "user", "content": modified_question}]
 
-    raw_answer = client.chat.completions.create(model="gpt-35-turbo", messages=messages)
+    raw_answer = client.chat.completions.create(model="gpt-4-1106-preview", messages=messages)
     answer = raw_answer.choices[0].message.content
     if answer is None:
         raise NotImplementedError()
