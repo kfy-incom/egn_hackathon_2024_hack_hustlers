@@ -22,10 +22,15 @@ def answer_question(question:str, speeches:str) -> dict:
         You are an expert on the Danish royal family. You have intimate
         knowledge of the family members, their relations and events
         that have occurred in their family.
+
+        Be aware that Queen Margrethe II abdicated on January 14th 2024, so
+        from that date the regent of Denmark is King Frederik X, formerly
+        Crown-prince Frederik, Queen Margrete's son. Likewise, Crown-princess
+        Mary is Queen Mary as of January 14th 2024.
         
         Below you have transcripts of all the queen's New Year's speeches.
         Please use these, together your general knowledge of the royal family,
-        to answer questions from the user.
+        to answer questions from the user. Please make your response concise.
 
         ### TRANSCRIPTS
         {speeches}
@@ -38,7 +43,8 @@ def answer_question(question:str, speeches:str) -> dict:
     client = azure_client.initialize_client()
     raw_answer = client.chat.completions.create(
         model="gpt-4-1106-preview",
-        messages=messages
+        messages=messages,
+        temperature=0.3,
     )
 
     return raw_answer
@@ -53,8 +59,21 @@ def load_speeches():
 
 if __name__ == "__main__":
 
+    questions = [
+        "I hvilket år holdt Dronning Margrethe en nytårstale, der markerede hendes 40-års regeringsjubilæum?",
+        "Hvem er Danmarks Dronning i februar 2024?",
+        "Hvornår blev Kongens første datter født?",
+        "Hvilke lande nævner Dronningen altid i sine nytårstaler?",
+        "Udover dansk, hvilket andet sprog benytter Dronning Margrethe undertiden i sine nytårstaler?",
+        "I hvilken nytårstale reflekterede Dronning Margrethe over tabet af Prins Henrik?",
+        "Hvem kalder Dronningen for Søens Folk?"
+    ]
+
+
     speeches = load_speeches()
     # Test question answering
-    question = "Hvad skete der i 2001?"
-    raw_answer = answer_question(question, speeches)
-    print(raw_answer.choices[0].message.content)
+    #question = "Hvad var den største overraskelse i talen fra 2023?"
+    #question = "Hvornår blev Kongens første datter født?"
+    for q in questions:
+        raw_answer = answer_question(q, speeches)
+        print(raw_answer.choices[0].message.content)
