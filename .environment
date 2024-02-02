@@ -1,4 +1,0 @@
-OPENAI_API_KEY=4b94ea21e11a4d46b7b5c17a1ef08de4
-OPENAI_API_VERSION=2023-09-01-preview 
-OPENAI_API_BASE=https://egn-llm-hackathon.openai.azure.com/
-OPENAI_API_TYPE=azure
